@@ -1,0 +1,19 @@
+<section class="dashboard">
+  <div class="cabecalho">
+    <div><p class="sobretitulo">TRAMPIX · VISÃO GERAL</p><h1>Dashboard operacional</h1><p class="descricao">Indicadores atualizados com os dados cadastrados na plataforma.</p></div>
+    <button mat-stroked-button type="button" (click)="carregar()"><mat-icon>refresh</mat-icon> Atualizar</button>
+  </div>
+  @if (carregando()) { <mat-progress-bar mode="indeterminate" /> }
+  @else if (erro()) {
+    <mat-card class="estado"><mat-card-content><mat-icon>cloud_off</mat-icon><p>Não foi possível carregar os indicadores.</p><button mat-flat-button color="primary" (click)="carregar()">Tentar novamente</button></mat-card-content></mat-card>
+  } @else if (dados(); as d) {
+    <div class="grade">
+      <mat-card class="indicador"><mat-card-content><span class="icone azul"><mat-icon>groups</mat-icon></span><p>Total de usuários</p><strong>{{ d.totalUsuarios }}</strong><small>Contas cadastradas</small></mat-card-content></mat-card>
+      <mat-card class="indicador"><mat-card-content><span class="icone verde"><mat-icon>engineering</mat-icon></span><p>Prestadores</p><strong>{{ d.totalPrestadores }}</strong><small>Perfis profissionais</small></mat-card-content></mat-card>
+      <mat-card class="indicador"><mat-card-content><span class="icone roxo"><mat-icon>handyman</mat-icon></span><p>Serviços ativos</p><strong>{{ d.servicosAtivos }}</strong><small>Ofertas disponíveis</small></mat-card-content></mat-card>
+      <mat-card class="indicador"><mat-card-content><span class="icone laranja"><mat-icon>pending_actions</mat-icon></span><p>Pedidos pendentes</p><strong>{{ d.pedidosPendentes }}</strong><small>Aguardando resposta</small></mat-card-content></mat-card>
+      <mat-card class="indicador destaque"><mat-card-content><span class="icone verde"><mat-icon>task_alt</mat-icon></span><p>Contratações concluídas</p><strong>{{ d.contratacoesConcluidas }}</strong><small>Serviços finalizados</small></mat-card-content></mat-card>
+    </div>
+    <p class="nota">Os indicadores são calculados no backend a partir dos registros persistidos no MySQL.</p>
+  }
+</section>

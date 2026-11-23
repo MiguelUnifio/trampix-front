@@ -1,0 +1,16 @@
+<section class="pagina-servicos">
+  <header><div><p class="sobre">ÁREA DO PRESTADOR</p><h1>Meus serviços</h1><p>Cadastre, edite e inative os serviços que você oferece.</p></div><button mat-flat-button color="primary" type="button" (click)="novo()"><mat-icon>add</mat-icon>Novo serviço</button></header>
+  @if (erro()) { <p class="erro" role="alert">{{ erro() }}</p> }
+  <mat-card class="formulario"><mat-card-header><mat-card-title>{{ editando() ? 'Editar serviço' : 'Cadastrar serviço' }}</mat-card-title></mat-card-header><mat-card-content>
+    <form (ngSubmit)="salvar()">
+      <mat-form-field appearance="outline"><mat-label>Título</mat-label><input matInput name="titulo" [(ngModel)]="titulo" required maxlength="120"></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Descrição</mat-label><textarea matInput name="descricao" [(ngModel)]="descricao" required maxlength="2000" rows="3"></textarea></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Categoria</mat-label><mat-select name="categoria" [(ngModel)]="categoriaId" required><mat-option [value]="null">Selecione</mat-option>@for(c of categorias();track c.id){<mat-option [value]="c.id">{{c.nome}}</mat-option>}</mat-select></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Subcategoria</mat-label><mat-select name="subcategoria" [(ngModel)]="subcategoriaId" required><mat-option [value]="null">Selecione</mat-option>@for(s of subcategorias;track s.id){<mat-option [value]="s.id">{{s.nome}}</mat-option>}</mat-select></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Preço (R$)</mat-label><input matInput name="preco" type="number" min="0.01" step="0.01" [(ngModel)]="preco" required></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Tipo de cobrança</mat-label><mat-select name="tipo" [(ngModel)]="tipoCobranca">@for(t of tipos;track t.valor){<mat-option [value]="t.valor">{{t.texto}}</mat-option>}</mat-select></mat-form-field>
+      <div class="acoes"><button mat-flat-button color="primary" type="submit">{{editando() ? 'Salvar alterações' : 'Cadastrar serviço'}}</button><button mat-button type="button" (click)="novo()">Limpar</button></div>
+    </form>
+  </mat-card-content></mat-card>
+  <h2>Serviços cadastrados</h2><div class="lista">@for(s of servicos();track s.id){<mat-card><mat-card-content><div class="linha"><div><h3>{{s.titulo}}</h3><p>{{s.categoria.nome}} · {{s.subcategoria.nome}}</p><strong>{{s.preco | currency:'BRL'}} · {{s.tipoCobranca}}</strong><small>Status: {{s.status}}</small></div><div class="acoes"><button mat-icon-button aria-label="Editar" (click)="prepararEdicao(s)"><mat-icon>edit</mat-icon></button><button mat-icon-button color="warn" aria-label="Inativar" (click)="excluir(s.id)"><mat-icon>delete</mat-icon></button></div></div></mat-card-content></mat-card>} @empty {<p>Você ainda não cadastrou serviços.</p>}</div>
+</section>
